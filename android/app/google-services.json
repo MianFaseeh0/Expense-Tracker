@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "236120652032",
+    "project_id": "ensetracker",
+    "storage_bucket": "ensetracker.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236120652032:android:83ba01efef582d80495be5",
+        "android_client_info": {
+          "package_name": "com.example.expensetracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV7Bl9KLB-m0BbWoHNCOU0KsecUuQAN2Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
