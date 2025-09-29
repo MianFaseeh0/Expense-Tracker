@@ -77,10 +77,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 'TRACK SMARTER',
                 duration: const Duration(milliseconds: 700), // 1.5 seconds
               ),
-              RotateAnimatedText(
-                'FEEL ORGANIZED',
-                duration: const Duration(milliseconds: 600), // 1.5 seconds
-              ),
             ],
           ),
         ),

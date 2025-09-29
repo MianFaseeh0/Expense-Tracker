@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expensetracker/sign-login-screens/startup_screens.dart';
 import 'package:expensetracker/widgets/input_pic.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
@@ -77,44 +78,88 @@ class _NewExpensestate extends ConsumerState<NewExpense> {
       });
 
       final image = _PickedImage;
-
       final dir = await getSaveDirectory();
-      final savedImage = await saveImageToFile(image!, dir);
-      print('Image saved at: ${savedImage.path}');
+      if (image != null) {
+        final savedImage = await saveImageToFile(image, dir);
+        print('Image saved at: ${savedImage.path}');
+        final user = FirebaseAuth.instance.currentUser;
 
-      try {
-        await FirebaseFirestore.instance.collection('expenses').add({
-          'name': _nameController.text.trim(),
-          'date': _selectedDate,
-          'amount': int.parse(_amountController.text.trim()),
-          'category': _selectedCatogary.name,
-          'user': FirebaseAuth.instance.currentUser!.uid,
-          'image-path': savedImage.path,
-          'description': _descriptionController.text.trim(),
-        });
-
-        if (mounted) {
-          setState(() {
-            isSending = false;
-          });
-
-          print("Saving complete. Now popping.");
-          Navigator.of(context).pop();
-
-          Fluttertoast.showToast(
-            toastLength: Toast.LENGTH_SHORT,
-            msg: 'Expense Added',
-            gravity: ToastGravity.BOTTOM,
-          );
+        if (user == null) {
+          throw Exception("User not logged in");
         }
-      } catch (e) {
-        print("Error while uploading expense: $e");
-        if (mounted) {
-          setState(() {
-            isSending = false;
+        try {
+          await FirebaseFirestore.instance.collection('expenses').add({
+            'name': _nameController.text.trim(),
+            'date': _selectedDate,
+            'amount': int.parse(_amountController.text.trim()),
+            'category': _selectedCatogary.name,
+            'user': FirebaseAuth.instance.currentUser!.uid,
+            'image-path': savedImage.path,
+            'description': _descriptionController.text.trim(),
           });
+
+          if (mounted) {
+            setState(() {
+              isSending = false;
+            });
+
+            print("Saving complete. Now popping.");
+            Navigator.of(context).pop();
+
+            Fluttertoast.showToast(
+              toastLength: Toast.LENGTH_SHORT,
+              msg: 'Expense Added',
+              gravity: ToastGravity.BOTTOM,
+            );
+          }
+        } catch (e) {
+          print("Error while uploading expense: $e");
+          if (mounted) {
+            setState(() {
+              isSending = false;
+            });
+          }
+        }
+      } else {
+        final user = FirebaseAuth.instance.currentUser;
+
+        if (user == null) {
+          throw Exception("User not logged in");
+        }
+        try {
+          await FirebaseFirestore.instance.collection('expenses').add({
+            'name': _nameController.text.trim(),
+            'date': _selectedDate,
+            'amount': int.parse(_amountController.text.trim()),
+            'category': _selectedCatogary.name,
+            'user': FirebaseAuth.instance.currentUser!.uid,
+            'description': _descriptionController.text.trim(),
+          });
+
+          if (mounted) {
+            setState(() {
+              isSending = false;
+            });
+
+            print("Saving complete. Now popping.");
+            Navigator.of(context).pop();
+
+            Fluttertoast.showToast(
+              toastLength: Toast.LENGTH_SHORT,
+              msg: 'Expense Added',
+              gravity: ToastGravity.BOTTOM,
+            );
+          }
+        } catch (e) {
+          print("Error while uploading expense: $e");
+          if (mounted) {
+            setState(() {
+              isSending = false;
+            });
+          }
         }
       }
+      ;
     }
   }
 
@@ -239,12 +284,6 @@ class _NewExpensestate extends ConsumerState<NewExpense> {
                         style: GoogleFonts.spaceMono(color: Colors.black),
                       ),
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut();
-                    },
-                    child: Text('sign out'),
                   ),
                 ],
               ),

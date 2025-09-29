@@ -142,10 +142,24 @@ class _catItemScreenState extends ConsumerState<CatItemScreen> {
                           clipBehavior: Clip.hardEdge,
                           child: Hero(
                             tag: 'image',
-                            child: Image.file(
-                              File(data['image-path']),
-                              fit: BoxFit.cover,
-                            ),
+                            child: data['image-path'] != null
+                                ? Image.file(
+                                    File(data['image-path']!),
+                                    fit: BoxFit.cover,
+                                  )
+                                : Container(
+                                    color: Colors.grey,
+                                    child: Icon(
+                                      Icons.receipt,
+                                      color: const Color.fromARGB(
+                                        255,
+                                        38,
+                                        38,
+                                        38,
+                                      ),
+                                      size: 40,
+                                    ),
+                                  ),
                           ),
                         ),
                         Hero(

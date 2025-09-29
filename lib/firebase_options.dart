@@ -46,30 +46,31 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDd0M3CEtV-30is4l8_5hkNT7i9Gc-oR9w',
-    appId: '1:236120652032:web:6501c063e17b7d2b495be5',
-    messagingSenderId: '236120652032',
-    projectId: 'ensetracker',
-    authDomain: 'ensetracker.firebaseapp.com',
-    storageBucket: 'ensetracker.firebasestorage.app',
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyDSnNvwE4cVIDk2ztLu0-NGOWN0xboMN-k',
+    appId: '1:861197441104:android:7658094145d3a3832c1955',
+    messagingSenderId: '861197441104',
+    projectId: 'meals-e69bb',
+    storageBucket: 'meals-e69bb.firebasestorage.app',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAV7Bl9KLB-m0BbWoHNCOU0KsecUuQAN2Q',
-    appId: '1:236120652032:android:83ba01efef582d80495be5',
-    messagingSenderId: '236120652032',
-    projectId: 'ensetracker',
-    storageBucket: 'ensetracker.firebasestorage.app',
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCU0rmb7vRbmbcjpCIoZKJ58nmv-6Jdee4',
+    appId: '1:266368257016:web:4c403b838fccb44046640d',
+    messagingSenderId: '266368257016',
+    projectId: 'vpnbackend',
+    authDomain: 'vpnbackend.firebaseapp.com',
+    databaseURL: 'https://vpnbackend-default-rtdb.firebaseio.com',
+    storageBucket: 'vpnbackend.firebasestorage.app',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDd0M3CEtV-30is4l8_5hkNT7i9Gc-oR9w',
-    appId: '1:236120652032:web:13ecd4469b8675a5495be5',
-    messagingSenderId: '236120652032',
-    projectId: 'ensetracker',
-    authDomain: 'ensetracker.firebaseapp.com',
-    storageBucket: 'ensetracker.firebasestorage.app',
+    apiKey: 'AIzaSyA4RoQ6F4tMketh0YeeZzEpTaN8Frg1g9A',
+    appId: '1:861197441104:web:0683c5c9affdbfb62c1955',
+    messagingSenderId: '861197441104',
+    projectId: 'meals-e69bb',
+    authDomain: 'meals-e69bb.firebaseapp.com',
+    storageBucket: 'meals-e69bb.firebasestorage.app',
   );
 
 }

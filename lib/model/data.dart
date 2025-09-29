@@ -32,7 +32,7 @@ class Expense {
 
   final double amount;
   final String id;
-  final File? image;
+  final Text? image;
   final DateTime date;
   final Catogary catogary;
 

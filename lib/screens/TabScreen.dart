@@ -1,4 +1,5 @@
 import 'package:expensetracker/screens/categories.dart';
+import 'package:expensetracker/screens/drawer.dart';
 import 'package:expensetracker/screens/new_expense.dart';
 import 'package:expensetracker/widgets/chart.dart';
 import 'package:flutter/foundation.dart';
@@ -69,6 +70,7 @@ class _Expensesstate extends State<TabScreen> {
           ),
         ),
       ),
+      // drawer: DrawerScreen(),
       body: Stack(
         children: [
           Align(

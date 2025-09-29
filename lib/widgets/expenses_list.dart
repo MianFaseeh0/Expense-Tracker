@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expensetracker/model/data.dart';
 import 'package:expensetracker/screens/expense_detail.dart';
@@ -17,6 +15,14 @@ class ExpensesList extends ConsumerStatefulWidget {
 }
 
 class _ExpensesListState extends ConsumerState<ExpensesList> {
+  Widget _buildPlaceholderIcon() {
+    return const Icon(
+      Icons.receipt_long,
+      size: 40,
+      color: Color.fromARGB(255, 255, 255, 255),
+    );
+  }
+
   @override
   Widget build(context) {
     return StreamBuilder<QuerySnapshot>(
@@ -26,7 +32,7 @@ class _ExpensesListState extends ConsumerState<ExpensesList> {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           return Text(
@@ -47,14 +53,20 @@ class _ExpensesListState extends ConsumerState<ExpensesList> {
             final timestamp = data['date'] as Timestamp;
             final date = timestamp.toDate();
 
+            // Safely handle image path
+            final imagePath = data['image-path'] as String?;
+            final imageFile = imagePath != null && imagePath.isNotEmpty
+                ? File(imagePath)
+                : null;
+
             return InkWell(
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (ctx) => ExpenseDetailScreen(
-                      detail: data['description'],
-                      title: data['name'],
-                      image: File(data['image-path']),
+                      detail: data['description'] ?? '',
+                      title: data['name'] ?? 'Untitled',
+                      image: imageFile,
                       cat:
                           CategoryIcons[Catogary.values.firstWhere(
                             (c) => c.name == data['category'],
@@ -68,11 +80,11 @@ class _ExpensesListState extends ConsumerState<ExpensesList> {
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: Text("Delete Item?"),
+                    title: const Text("Delete Item?"),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(context),
-                        child: Text("Cancel"),
+                        child: const Text("Cancel"),
                       ),
                       TextButton(
                         onPressed: () {
@@ -96,14 +108,14 @@ class _ExpensesListState extends ConsumerState<ExpensesList> {
                                       .set(deletedData);
                                 },
                               ),
-                              content: Row(
+                              content: const Row(
                                 children: [Text('Expense deleted'), Spacer()],
                               ),
                             ),
                           );
                           Navigator.pop(context);
                         },
-                        child: Text("Delete"),
+                        child: const Text("Delete"),
                       ),
                     ],
                   ),
@@ -112,7 +124,10 @@ class _ExpensesListState extends ConsumerState<ExpensesList> {
               child: Card(
                 color: Colors.black,
                 elevation: 10,
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
                 shadowColor: Colors.black,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -124,54 +139,67 @@ class _ExpensesListState extends ConsumerState<ExpensesList> {
                       Container(
                         width: double.infinity,
                         height: 90,
-
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(
                             60,
                             118,
                             118,
                             118,
-                          ).withValues(alpha: .25),
+                          ).withOpacity(0.25),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         clipBehavior: Clip.hardEdge,
                         child: Hero(
                           tag: 'image',
-                          child: Image.file(
-                            File(data['image-path']),
-                            fit: BoxFit.cover,
-                          ),
+                          child: imageFile != null
+                              ? FutureBuilder<bool>(
+                                  future: imageFile.exists(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+
+                                    if (snapshot.hasData &&
+                                        snapshot.data == true) {
+                                      return Image.file(
+                                        imageFile,
+                                        fit: BoxFit.cover,
+                                      );
+                                    } else {
+                                      return _buildPlaceholderIcon();
+                                    }
+                                  },
+                                )
+                              : _buildPlaceholderIcon(),
                         ),
                       ),
-                      Hero(
-                        tag: 'name',
-                        child: Text(
-                          data['name'],
-                          style: GoogleFonts.spaceMono(
-                            fontSize: 18,
-                            color: Colors.white,
-                          ),
+
+                      Text(
+                        data['name'] ?? 'Untitled',
+                        style: GoogleFonts.spaceMono(
+                          fontSize: 18,
+                          color: Colors.white,
                         ),
                       ),
                       const SizedBox(height: 20),
                       Row(
                         children: [
                           Text(
-                            data['amount'].toString(),
+                            '\$${data['amount']?.toStringAsFixed(2) ?? '0.00'}',
                             style: GoogleFonts.spaceMono(color: Colors.white),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Row(
                             children: [
-                              Hero(
-                                tag: 'icon',
-                                child: Icon(
-                                  CategoryIcons[Catogary.values.firstWhere(
-                                    (c) => c.name == data['category'],
-                                    orElse: () => Catogary.extras,
-                                  )],
-                                  color: Colors.white,
-                                ),
+                              Icon(
+                                CategoryIcons[Catogary.values.firstWhere(
+                                  (c) => c.name == data['category'],
+                                  orElse: () => Catogary.extras,
+                                )],
+                                color: Colors.white,
                               ),
                               const SizedBox(width: 7),
                               Text(

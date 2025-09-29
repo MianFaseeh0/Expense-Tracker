@@ -1,22 +1,24 @@
 import 'dart:ui';
 
 import 'package:email_validator/email_validator.dart';
+import 'package:expensetracker/provider/name_provider.dart';
 import 'package:expensetracker/screens/TabScreen.dart';
 import 'package:expensetracker/sign-login-screens/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
-class SignIn extends StatefulWidget {
+class SignIn extends ConsumerStatefulWidget {
   const SignIn({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  ConsumerState<SignIn> createState() => _SignInState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignInState extends ConsumerState<SignIn> {
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
@@ -49,6 +51,7 @@ class _SignInState extends State<SignIn> {
           MaterialPageRoute(builder: (ctx) => TabScreen()),
           (Route<dynamic> route) => false,
         );
+        ref.read(stringProvider.notifier).state = _emailController.text.trim();
       }
     } on FirebaseAuthException catch (e) {
       if (!mounted) {

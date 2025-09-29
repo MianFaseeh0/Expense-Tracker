@@ -5,13 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ExpenseDetailScreen extends StatelessWidget {
   const ExpenseDetailScreen({
-    required this.image,
+    this.image,
     required this.title,
     this.cat,
     required this.detail,
     super.key,
   });
-  final File image;
+  final File? image;
   final String title, detail;
   final IconData? cat;
 
@@ -40,31 +40,22 @@ class ExpenseDetailScreen extends StatelessWidget {
               clipBehavior: Clip.hardEdge,
               child: Hero(
                 tag: 'image',
-                child:Image.file(image, fit: BoxFit.cover) ,
+                child: image != null
+                    ? Image.file(image!, fit: BoxFit.cover)
+                    : const Center(child: Text('No Image Added')),
               ),
             ),
             const SizedBox(height: 10),
             Row(
               children: [
-                Hero(
-                  tag: 'name',
-                  child: Text(
-                    title,
-                    style: GoogleFonts.spaceMono(fontSize: 22),
-                  ),
-                ),
+                Text(title, style: GoogleFonts.spaceMono(fontSize: 22)),
                 const Spacer(),
-                Hero(tag: 'icon', child: Icon(cat, size: 30)),
+                Icon(cat, size: 30),
               ],
             ),
             const SizedBox(height: 20),
-            if (detail.isEmpty)
-              Text(
-                'No description provided',
-                style: Theme.of(context).textTheme.bodyMedium,
-              )
-            else
-              Text("$detail", style: Theme.of(context).textTheme.bodySmall),
+
+            Text("$detail", style: Theme.of(context).textTheme.bodySmall),
           ],
         ),
       ),
