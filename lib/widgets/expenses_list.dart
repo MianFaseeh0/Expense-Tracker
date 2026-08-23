@@ -145,7 +145,7 @@ class _ExpensesListState extends ConsumerState<ExpensesList> {
                             118,
                             118,
                             118,
-                          ).withOpacity(0.25),
+                          ).withValues(alpha: 0.25),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         clipBehavior: Clip.hardEdge,

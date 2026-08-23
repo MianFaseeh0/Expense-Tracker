@@ -49,7 +49,7 @@ class DrawerScreen extends StatelessWidget {
                 foregroundColor: Colors.white,
               ),
               onPressed: () {
-                Navigator.of(context).pop
+                Navigator.of(context).pop();
                 Navigator.of(context).push(
 
                   MaterialPageRoute(builder: (ctx) => NewExpense()),

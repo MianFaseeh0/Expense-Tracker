@@ -68,6 +68,7 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
+  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();

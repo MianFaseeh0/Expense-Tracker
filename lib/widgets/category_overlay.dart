@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:expensetracker/screens/cat_item.dart';
 import 'package:flutter/material.dart';

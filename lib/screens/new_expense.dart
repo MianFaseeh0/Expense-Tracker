@@ -159,7 +159,6 @@ class _NewExpensestate extends ConsumerState<NewExpense> {
           }
         }
       }
-      ;
     }
   }
 
@@ -236,7 +235,7 @@ class _NewExpensestate extends ConsumerState<NewExpense> {
                   ),
                   const SizedBox(height: 10),
                   DropdownButtonFormField(
-                    value: _selectedCatogary,
+                    initialValue: _selectedCatogary,
                     items: Catogary.values
                         .map(
                           (catogary) => DropdownMenuItem(

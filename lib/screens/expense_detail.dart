@@ -55,7 +55,7 @@ class ExpenseDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            Text("$detail", style: Theme.of(context).textTheme.bodySmall),
+            Text(detail, style: Theme.of(context).textTheme.bodySmall),
           ],
         ),
       ),

@@ -20,9 +20,10 @@ class TabScreen extends StatefulWidget {
 
 class _Expensesstate extends State<TabScreen> {
   int _selectedIndex = 0;
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   List<Widget> screens = [];
 
+  @override
   void initState() {
     super.initState();
     screens = [
@@ -51,6 +52,7 @@ class _Expensesstate extends State<TabScreen> {
     );
   }
 
+  @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
