@@ -51,7 +51,6 @@ class DrawerScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(
-
                   MaterialPageRoute(builder: (ctx) => NewExpense()),
                 );
                 
