@@ -12,7 +12,7 @@ void main() async {
   try {
     if (Firebase.apps.isEmpty) {
       await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
+        options: DefaultFirebaseOptions.currentPatform,
       );
     }
   } on FirebaseException catch (e) {
