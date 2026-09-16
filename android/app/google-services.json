@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "236120652032",
-    "project_id": "ensetracker",
-    "storage_bucket": "ensetracker.firebasestorage.app"
+    "project_number": "266368257016",
+    "firebase_url": "https://vpnbackend-default-rtdb.firebaseio.com",
+    "project_id": "vpnbackend",
+    "storage_bucket": "vpnbackend.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:236120652032:android:83ba01efef582d80495be5",
+        "mobilesdk_app_id": "1:266368257016:android:6a6b9ed1a517740d46640d",
         "android_client_info": {
           "package_name": "com.example.expensetracker"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAV7Bl9KLB-m0BbWoHNCOU0KsecUuQAN2Q"
+          "current_key": "AIzaSyC_PdgP-neCwj6dDkLdXwHsBHqAx0p8XFQ"
         }
       ],
       "services": {
