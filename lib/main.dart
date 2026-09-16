@@ -12,7 +12,7 @@ void main() async {
   errorHandler.attachGlobalHandlers();
   try {
     if (Firebase.apps.isEmpty) {
-      await Firebase.initializeApp
+      await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
     }
