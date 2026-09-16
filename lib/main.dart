@@ -8,7 +8,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  const errorHandler = ErrorHandlerSerice();
+  const errorHandler = ErrorHandlerService();
   errorHandler.attachGlobalHandlers();
   try {
     if (Firebase.apps.isEmpty) {
