@@ -1,6 +1,5 @@
 import 'package:expensetracker/model/data.dart';
 import 'package:expensetracker/widgets/category_overlay.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesScreen extends StatelessWidget {
