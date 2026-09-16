@@ -1,8 +1,6 @@
 import 'package:expensetracker/screens/categories.dart';
-import 'package:expensetracker/screens/drawer.dart';
 import 'package:expensetracker/screens/new_expense.dart';
 import 'package:expensetracker/widgets/chart.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:expensetracker/widgets/expenses_list.dart';
 import 'package:google_fonts/google_fonts.dart';
