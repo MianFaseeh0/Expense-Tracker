@@ -12,6 +12,7 @@ import '../../../core/mixins/loading_state_mixin.dart';
 import '../../../core/utils/date_formatting.dart';
 import '../../../data/models/expense_category.dart';
 import '../../../data/models/expense_model.dart';
+import '../../../data/models/receipt_scan_result.dart';
 import '../../providers/expense_controller.dart';
 import '../../providers/repository_providers.dart';
 import '../../providers/session_providers.dart';
@@ -24,6 +25,11 @@ import '../../widgets/expense/expense_image_picker_field.dart';
 /// mixed image-persistence, Firestore writes and form UI in one widget.
 /// This version builds one [ExpenseModel] draft and hands it to
 /// [ExpenseController], which owns image persistence + the write.
+///
+/// Capturing a receipt photo also runs it through on-device OCR
+/// ([ReceiptScannerService]) to auto-fill amount/name/date — see
+/// [_handleImagePicked]. This is best-effort only: it never blocks
+/// manual entry and never overwrites a field the user already typed in.
 class AddExpenseScreen extends ConsumerStatefulWidget {
   const AddExpenseScreen({super.key});
 
@@ -45,6 +51,9 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen>
   ExpenseCategory _selectedCategory = ExpenseCategory.extras;
   File? _pickedImage;
 
+  bool _isScanningReceipt = false;
+  bool _didAutofillFromReceipt = false;
+
   Future<void> _presentDatePicker() async {
     final now = DateTime.now();
     final pickedDate = await showDatePicker(
@@ -55,6 +64,47 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen>
     );
     if (pickedDate == null) return;
     setState(() => _selectedDate = pickedDate);
+  }
+
+  /// Runs when [ExpenseImagePickerField] hands back a captured photo.
+  ///
+  /// OCR is pure convenience on top of a form the user can already fill
+  /// in by hand, so a scan failure is swallowed here (via
+  /// [ErrorHandlerService.guard], which logs + toasts it) rather than
+  /// blocking the flow — the picked image is kept either way.
+  Future<void> _handleImagePicked(File image) async {
+    setState(() {
+      _pickedImage = image;
+      _isScanningReceipt = true;
+    });
+
+    final result = await ref
+        .read(errorHandlerServiceProvider)
+        .guard(() => ref.read(receiptScannerServiceProvider).scan(image));
+
+    if (!mounted) return;
+    setState(() => _isScanningReceipt = false);
+    if (result != null) _applyScanResult(result);
+  }
+
+  /// Fills the form from a scan, but only into fields the user hasn't
+  /// already typed something into — auto-fill should never clobber input
+  /// a person already made.
+  void _applyScanResult(ReceiptScanResult result) {
+    if (!result.hasAnyMatch) return;
+
+    setState(() {
+      if (result.amount != null && _amountController.text.trim().isEmpty) {
+        _amountController.text = result.amount!.toStringAsFixed(2);
+      }
+      if (result.merchantName != null && _nameController.text.trim().isEmpty) {
+        _nameController.text = result.merchantName!;
+      }
+      if (result.date != null) {
+        _selectedDate = result.date!;
+      }
+      _didAutofillFromReceipt = true;
+    });
   }
 
   Future<void> _submit() async {
@@ -180,9 +230,28 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen>
                     },
                   ),
                   const SizedBox(height: 10),
-                  ExpenseImagePickerField(
-                    onImagePicked: (image) => _pickedImage = image,
-                  ),
+                  ExpenseImagePickerField(onImagePicked: _handleImagePicked),
+                  if (_isScanningReceipt) ...[
+                    const SizedBox(height: 8),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 14,
+                          height: 14,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                        SizedBox(width: 8),
+                        Text('Reading receipt…'),
+                      ],
+                    ),
+                  ] else if (_didAutofillFromReceipt) ...[
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Filled in from your receipt — check it over before saving.',
+                      style: TextStyle(fontSize: 12, color: Colors.black54),
+                    ),
+                  ],
                   const SizedBox(height: 20),
                   Align(
                     alignment: Alignment.centerRight,
