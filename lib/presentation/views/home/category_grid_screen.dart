@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../../../data/models/expense_category.dart';
 import '../../widgets/expense/category_tile.dart';
 
-/// The "Categories" tab: a grid of every [ExpenseCategory].
 class CategoryGridScreen extends StatelessWidget {
   const CategoryGridScreen({super.key});
 

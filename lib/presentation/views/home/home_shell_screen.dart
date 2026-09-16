@@ -1,22 +1,20 @@
+import 'package:expensetracker/presentation/widgets/charts/expense_summary_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../core/constants/asset_paths.dart';
-import '../../widgets/charts/expense_summary_chart.dart';
 import '../../widgets/common/spending_overview_card.dart';
 import '../../widgets/expense/expense_list_view.dart';
 import '../../widgets/navigation/app_navigation_drawer.dart';
 import '../expense/add_expense_screen.dart';
 import 'category_grid_screen.dart';
 
-/// The signed-in home shell: category chart, tabbed
-/// categories/expenses view, and the add-expense speed dial.
-///
-/// Renamed from `TabScreen`. The navigation drawer — present in the
-/// original but commented out and never actually shown — is now wired up,
-/// and a [SpendingOverviewCard] (new feature) sits above the chart.
+/// The signed-in home shell: tabbed categories/expenses view and the
+/// add-expense speed dial. The overall expense card stays fixed at
+/// the top; the chart used to live here too, but now lives inside
+/// [ExpenseListView], where it collapses away as that tab is scrolled.
 class HomeShellScreen extends StatefulWidget {
   const HomeShellScreen({super.key});
 
@@ -96,20 +94,11 @@ class _HomeShellScreenState extends State<HomeShellScreen> {
                 child: SpendingOverviewCard(),
               ),
               const SizedBox(height: 12),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: ExpenseSummaryChart(),
-              ),
-              const SizedBox(height: 15),
-              Text(
-                'Categories',
-                style: GoogleFonts.spaceMono(
-                  fontSize: 17,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 10),
+              if(_selectedTabIndex == 0)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              child: ExpenseSummaryChart(),
+                            ),
               Expanded(
                 child: PageView(
                   controller: _pageController,

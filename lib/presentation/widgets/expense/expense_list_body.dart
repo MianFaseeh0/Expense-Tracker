@@ -20,25 +20,34 @@ class ExpenseListBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return expensesAsync.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, _) => Center(
-        child: Text(
-          'Could not load expenses.',
-          style: GoogleFonts.spaceMono(fontSize: 15),
+      loading: () => const SliverFillRemaining(
+        hasScrollBody: false,
+        child: Center(child: CircularProgressIndicator()),
+      ),
+      error: (error, _) => SliverFillRemaining(
+        hasScrollBody: false,
+        child: Center(
+          child: Text(
+            'Could not load expenses.',
+            style: GoogleFonts.spaceMono(fontSize: 15),
+          ),
         ),
       ),
       data: (expenses) {
         if (expenses.isEmpty) {
-          return Center(
-            child: Text(
-              emptyMessage,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.spaceMono(fontSize: 15),
+          return SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(
+              child: Text(
+                emptyMessage,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.spaceMono(fontSize: 15),
+              ),
             ),
           );
         }
 
-        return ListView.builder(
+        return SliverList.builder(
           itemCount: expenses.length,
           itemBuilder: (context, index) {
             final expense = expenses[index];

@@ -1,3 +1,4 @@
+import 'package:expensetracker/presentation/widgets/charts/expense_summary_chart.dart';
 import 'package:expensetracker/screens/categories.dart';
 import 'package:expensetracker/screens/new_expense.dart';
 import 'package:expensetracker/widgets/chart.dart';
@@ -63,7 +64,7 @@ class _Expensesstate extends State<TabScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          'Expense Tracker',
+          'Expense Tracke',
           style: GoogleFonts.spaceMono(
             fontSize: 22,
             fontWeight: FontWeight.bold,
@@ -105,7 +106,6 @@ class _Expensesstate extends State<TabScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-
               Expanded(
                 child: PageView(
                   controller: _pageController,

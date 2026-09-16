@@ -9,7 +9,13 @@ import '../../data/repositories/expense_repository.dart';
 import '../../data/repositories/image_storage_service.dart';
 import 'repository_providers.dart';
 
-
+/// Mediates between the "add expense" / expense-list views and the
+/// [ExpenseRepository] + [ImageStorageService].
+///
+/// Keeping image persistence and Firestore writes orchestrated here (rather
+/// than inline in a widget, as the original `new_expense.dart` did) means
+/// the same submit/delete/restore logic can be reused by any screen and
+/// unit-tested without a widget tree.
 class ExpenseController {
   ExpenseController(this._repository, this._imageStorage, this._errorHandler);
 

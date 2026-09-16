@@ -6,6 +6,11 @@ import '../../core/errors/error_handler_service.dart';
 import '../../data/repositories/authentication_repository.dart';
 import 'repository_providers.dart';
 
+/// Mediates between the sign in/sign up views and [AuthenticationRepository].
+///
+/// Every method normalizes failures into an [AppException] via
+/// [ErrorHandlerService] before rethrowing, so views only ever need to
+/// catch one exception type and read `.message`.
 class AuthController {
   AuthController(this._repository, this._errorHandler);
 
