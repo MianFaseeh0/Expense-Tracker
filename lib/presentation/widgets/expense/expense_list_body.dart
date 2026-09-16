@@ -7,12 +7,6 @@ import '../../providers/expense_controller.dart';
 import '../../providers/repository_providers.dart';
 import 'expense_list_tile.dart';
 
-/// Renders an [AsyncValue] of expenses as a scrollable list, with a
-/// consistent empty/error state and a delete-with-undo flow.
-///
-/// The original project duplicated this loading/empty/list/delete-dialog
-/// logic almost verbatim between `widgets/expenses_list.dart` and
-/// `screens/cat_item.dart`. Both now delegate here.
 class ExpenseListBody extends ConsumerWidget {
   const ExpenseListBody({
     required this.expensesAsync,

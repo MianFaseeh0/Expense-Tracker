@@ -16,10 +16,10 @@ class ExpenseListView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final filteredExpenses = ref.watch(filteredExpensesProvider);
 
-    return Column(
+    return ListView(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
           child: TextField(
             decoration: const InputDecoration(
               hintText: 'Search expenses…',
@@ -31,15 +31,14 @@ class ExpenseListView extends ConsumerWidget {
                 ref.read(expenseSearchQueryProvider.notifier).state = value,
           ),
         ),
-        Expanded(
-          child: ExpenseListBody(
+         ExpenseListBody(
             expensesAsync: filteredExpenses,
             emptyMessage:
                 ref.watch(expenseSearchQueryProvider).trim().isEmpty
                 ? 'Oh no! No expenses here — try adding some.'
                 : 'No expenses match your search.',
           ),
-        ),
+        
       ],
     );
   }
