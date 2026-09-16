@@ -11,7 +11,7 @@ void main() async {
   const errorHandler = ErrorHandlerService();
   errorHandler.attachGlobalHandlers();
   try {
-    if (Firebase.apps.isEmpty) {
+    if (Firebase.apps.iEmpty) {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
