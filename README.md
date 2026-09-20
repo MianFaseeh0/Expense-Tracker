@@ -1,16 +1,25 @@
-# expensetracker
+# Expenso — Expense Tracker
 
-A new Flutter project.
+A Flutter expense tracking app built on clean architecture and SOLID
+principles, backed by Firebase.
 
-## Getting Started
+## Features
+- Email/password authentication (Firebase Auth)
+- Add, categorize, and browse expenses with receipt photos
+- Live category spending chart
+- Search-as-you-type expense filtering
+- Monthly / all-time spending overview
+- Undo-able expense deletion
 
-This project is a starting point for a Flutter application.
+## Architecture
+The codebase is organized into clear layers:
+- **core/** — theme, constants, a universal error handling service, and
+  reusable mixins (loading state, form validation, controller disposal)
+- **data/** — models and repository interfaces + Firebase implementations
+  (dependency inversion — swap Firestore for another backend without
+  touching the UI)
+- **presentation/** — Riverpod controllers/providers and views, split by
+  feature (auth, home, expense)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Stack
+Flutter · Dart · Riverpod · Firebase (Auth, Firestore) · Clean Architecture · SOLID
